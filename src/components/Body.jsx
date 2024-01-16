@@ -11,7 +11,7 @@ const Body = ({val = 0}) => {
             </div>
 
             <div className="previewDocument mt-3">
-            <h3 className='text-4xl'>Preview Of Ur Text</h3>
+            <h3 className='text-3xl text-center'>Preview Of Your Text</h3>
                 <textarea disabled="true" value={val}  name="" id="" cols="10" rows="2" className='border mt-5 p-3 resize-none w-full text-2xl'></textarea>
             </div>
         </div>
