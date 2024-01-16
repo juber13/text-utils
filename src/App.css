@@ -1,0 +1,32 @@
+/* 
+.main-container{
+  width: 100%;
+}
+
+.container{
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gap{
+  gap:5px;
+}
+
+.between{
+  justify-content: space-between;
+}
+
+.around{
+  justify-content: space-around;
+}
+
+header{
+  background: gray;
+} */
