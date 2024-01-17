@@ -1,54 +1,51 @@
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import Button from '../components/Button'
 import Body from '../components/Body';
+import btnReducer from '../components/reducer';
+
 const Home = () => {
     const [value, setValue] = useState("");
-    const [hasValue , setHasValue] = useState(false);
+  
+    const [state, dispatch] = useReducer(btnReducer, value);
+    const handleConvertUppercase = () => {
+        dispatch({ type: "CONVERT_UPPERCASE" });
+    };
 
+    const handleConvertLowercase = () => {
+        dispatch({ type: "CONVERT_LOWERCASE" });
+    };
 
-    const handleUpperCase = () => {
-        if(value.length > 0){
-            setValue(value.toUpperCase());
-        }
-    }
-    const handleLowerCase = () => {
-        if(value.length > 0){
-            setValue(value.toLowerCase());
-        }
-    }
-    const clearText = () => {
-        setValue("");
+    const handleClearText = () => {
+        dispatch({ type: "CLEAR_TEXT" });
+    };
 
-    }
-    const clipToBoard = () => {
-        navigator.clipboard.writeText(value)
-        .then(() =>  console.log("copied"))
-        .catch((err) => console.log("Error" , err));
-    }
-    const removeExtraText = () => { 
-        const newString = value.replace(/\s+/g, " ");
-        setValue(newString);
+    const handleCopyToClipboard = () => {
+        navigator.clipboard.writeText(state).then(() => console.log("copied")).then((err) => console.log(err));
+    };
 
-    }
+    const handleRemoveExtraText = () => {
+        dispatch({ type: "REMOVE_EXTRA_SPACE" });
+    };
+
     return (
         <div className='w-4/5 m-auto mt-10 p-3'>
-           <div className="heading text-xl font-thin">Enter Your Text Here</div>
+            <div className="heading text-xl font-thin">Enter Your Text Here</div>
             <div className=''>
-                <textarea value={value} onChange={(e) => setValue(e.target.value)} name="" id="" cols="30" rows="10" className='resize-none w-full p-3 text-2xl border'></textarea>
+                <textarea value={state} onChange={(e) => dispatch({type :  "UPDATE_STATE" , payload : e.target.value})} name="" id="" cols="30" rows="10" className='resize-none w-full p-3 text-2xl border'></textarea>
                 <div className="btns flex gap-4">
-                    <Button val={value} text="Convert UpperCase" color="skyblue" handleFunc={handleUpperCase} />
-                    <Button val={value} text="Convert LowerCase" color="skyblue" handleFunc={handleLowerCase} />
-                    <Button val={value} text="Clear Text" color="tomato" handleFunc={clearText} />
-                    <Button val={value} text="Copy To ClipBoard" color="green" handleFunc={clipToBoard} />
-                    <Button val={value} text="Remove Extra Text" color="skyblue" handleFunc={removeExtraText} />
+                    <button onClick={handleConvertUppercase} className={`text-white font-bold text-xs p-2 rounded-sm shadow-md`} style={{ background: "skyblue" }}>Convert UpperCase</button>
+                    <button onClick={handleConvertLowercase} className={`text-white font-bold text-xs p-2 rounded-sm shadow-md`} style={{ background: "skyblue" }}>Convert LowerCase</button>
+                    <button onClick={handleClearText} className={`text-white font-bold text-xs p-2 rounded-sm shadow-md`} style={{ background: "tomato" }}>Clear Text</button>
+                    <button onClick={handleCopyToClipboard} className={`text-white font-bold text-xs p-2 rounded-sm shadow-md`} style={{ background: "green" }}>Copy To Clipboard</button>
+                    <button onClick={handleRemoveExtraText} className={`text-white font-bold text-xs p-2 rounded-sm shadow-md`} style={{ background: "skyblue" }}>Remove Extra Text</button>
                 </div>
 
                 <div className="summary text-left mt-5">
-                    <Body val={value}/>
+                    <Body text={state} />
                 </div>
             </div>
         </div>
     )
 }
 
-export default Home
+export default Home;
